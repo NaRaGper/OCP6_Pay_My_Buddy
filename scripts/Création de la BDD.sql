@@ -32,10 +32,10 @@ DROP TABLE IF EXISTS `Connections`;
 CREATE TABLE `Connections` (
   `connection_id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `date` DATETIME NOT NULL DEFAULT LOCALTIME,
-  `id_initiator` INT NOT NULL,
-  `id_target` INT NOT NULL,
-  FOREIGN KEY (`id_initiator`) REFERENCES `Users`(`user_id`),
-  FOREIGN KEY (`id_target`) REFERENCES `Users`(`user_id`)
+  `initiator_id` INT NOT NULL,
+  `target_id` INT NOT NULL,
+  FOREIGN KEY (`initiator_id`) REFERENCES `Users`(`user_id`),
+  FOREIGN KEY (`target_id`) REFERENCES `Users`(`user_id`)
 );
 
 SET SQL_MODE=@OLD_SQL_MODE;
