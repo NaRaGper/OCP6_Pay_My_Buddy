@@ -7,35 +7,38 @@ USE `payMyBuddyDB`;
 
 DROP TABLE IF EXISTS `Users`;
 CREATE TABLE `Users` (
-  `user_id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `email` VARCHAR(255) NOT NULL UNIQUE,
-  `password` VARCHAR(255) NOT NULL,
   `username` VARCHAR(45) NOT NULL DEFAULT(`email`),
   `balance` DOUBLE NOT NULL DEFAULT 0,
-  `bank_account_number` VARCHAR(45) NOT NULL DEFAULT ''
+  `bank_account_number` VARCHAR(45) NOT NULL DEFAULT '',
+  `salt` CHAR(12) NOT NULL UNIQUE,
+  `salted_hash` CHAR(64) NOT NULL UNIQUE
 );
 
 DROP TABLE IF EXISTS `Transactions`;
 CREATE TABLE `Transactions` (
-  `transaction_id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  `type` ENUM('user', 'bank') NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `type` ENUM('user', 'toBank', 'fromBank', 'toCash', 'fromCash') NOT NULL,
   `amount` DOUBLE NOT NULL,
   `date` DATETIME NOT NULL DEFAULT LOCALTIME,
   `description` VARCHAR(255) NOT NULL DEFAULT '',
-  `sender_id` INT NOT NULL,
-  `receiver_id` INT NOT NULL,
-  FOREIGN KEY (`sender_id`) REFERENCES `Users`(`user_id`),
-  FOREIGN KEY (`receiver_id`) REFERENCES `Users`(`user_id`)
+  `sender_id` INT,
+  `receiver_id` INT,
+  FOREIGN KEY (`sender_id`) REFERENCES `Users`(`id`),
+  FOREIGN KEY (`receiver_id`) REFERENCES `Users`(`id`)
 );
 
 DROP TABLE IF EXISTS `Connections`;
 CREATE TABLE `Connections` (
-  `connection_id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `date` DATETIME NOT NULL DEFAULT LOCALTIME,
-  `initiator_id` INT NOT NULL,
-  `target_id` INT NOT NULL,
-  FOREIGN KEY (`initiator_id`) REFERENCES `Users`(`user_id`),
-  FOREIGN KEY (`target_id`) REFERENCES `Users`(`user_id`)
+  `user_id1` INT NOT NULL,
+  `user_id2` INT NOT NULL,
+  FOREIGN KEY (`user_id1`) REFERENCES `Users`(`id`),
+  FOREIGN KEY (`user_id2`) REFERENCES `Users`(`id`),
+  CHECK (`user_id1`!=`user_id2`),
+  UNIQUE INDEX `unique_pair` ((LEAST(`user_id1`, `user_id2`)), (GREATEST(`user_id1`, `user_id2`)))
 );
 
 SET SQL_MODE=@OLD_SQL_MODE;
