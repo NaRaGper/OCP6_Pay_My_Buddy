@@ -12,8 +12,7 @@ CREATE TABLE `Users` (
   `username` VARCHAR(45) NOT NULL DEFAULT(`email`),
   `balance` DOUBLE NOT NULL DEFAULT 0,
   `bank_account_number` VARCHAR(45) NOT NULL DEFAULT '',
-  `salt` CHAR(12) NOT NULL UNIQUE,
-  `salted_hash` CHAR(64) NOT NULL UNIQUE
+  `hash` CHAR(60) NOT NULL UNIQUE
 );
 
 DROP TABLE IF EXISTS `Transactions`;
