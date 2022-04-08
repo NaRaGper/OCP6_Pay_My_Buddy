@@ -1,5 +1,11 @@
 package com.paymybuddy.PayMyBuddy.repository;
 
-public class UserRepository {
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
+
+import com.paymybuddy.PayMyBuddy.model.User;
+
+@Repository
+public interface UserRepository extends CrudRepository<User, Integer> {
 
 }

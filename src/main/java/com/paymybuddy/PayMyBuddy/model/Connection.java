@@ -1,8 +1,12 @@
 package com.paymybuddy.PayMyBuddy.model;
 
+import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+@Entity
+@Table(name = "Connections")
 public class Connection {
 	
 	@Id
@@ -14,10 +18,6 @@ public class Connection {
 	@NotNull
 	private String date;
 	
-	public Connection() {
-	
-	}
-
 	public int getId() {
 		return id;
 	}

@@ -1,34 +1,50 @@
 package com.paymybuddy.PayMyBuddy.model;
 
+import java.sql.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+@Entity
+@Table(name = "Transactions")
 public class Transaction {
 	
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
+	
 	@NotNull
-	private enum Type {
-		USER, TOBANK, FROMBANK, TOCASH, FROMCASH
-	}
+	private PaymentType type;
 	@NotNull
 	private double amount;
 	@NotNull
-	private String date;
+	private Date date;
+	@NotNull
 	private String description;
+	@Column(name = "sender_id")
 	private int senderId;
+	@Column(name = "receiver_id")
 	private int receiverId;
 	
-	public Transaction() {
-
-	}
-
 	public int getId() {
 		return id;
 	}
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public PaymentType getType() {
+		return type;
+	}
+
+	public void setType(PaymentType type) {
+		this.type = type;
 	}
 
 	public double getAmount() {
@@ -39,11 +55,11 @@ public class Transaction {
 		this.amount = amount;
 	}
 
-	public String getDate() {
+	public Date getDate() {
 		return date;
 	}
 
-	public void setDate(String date) {
+	public void setDate(Date date) {
 		this.date = date;
 	}
 
