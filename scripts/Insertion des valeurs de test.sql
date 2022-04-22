@@ -14,7 +14,7 @@ VALUES ('test.3@mail.fr', 10000, '0138297465BIC', SUBSTR(SHA2('3333password', 25
 
 	-- USER 4
 INSERT INTO `Users` (`email`, `username`, `balance`, `bank_account_number`, `hash`)
-VALUES ('test44@mail.fr', 'User4', 29283098, '02473655757AAA', SUBSTR(SHA2('4p4ssword4', 256), 1, 60));
+VALUES ('test44@mail.fr', 'User4', 283098, '02473655757AAA', SUBSTR(SHA2('4p4ssword4', 256), 1, 60));
 
 -- population de la table `Connections` :
 INSERT INTO `Connections` (`user_id1`, `user_id2`) VALUES (1, 2);

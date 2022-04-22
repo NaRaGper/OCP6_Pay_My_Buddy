@@ -9,9 +9,9 @@ DROP TABLE IF EXISTS `Users`;
 CREATE TABLE `Users` (
   `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `email` VARCHAR(255) NOT NULL UNIQUE,
-  `username` VARCHAR(45) NOT NULL DEFAULT(`email`),
-  `balance` DOUBLE NOT NULL DEFAULT 0,
-  `bank_account_number` VARCHAR(45) NOT NULL DEFAULT '',
+  `username` VARCHAR(45) DEFAULT(`email`),
+  `balance` DOUBLE DEFAULT 0,
+  `bank_account_number` VARCHAR(45) DEFAULT '',
   `hash` CHAR(60) NOT NULL UNIQUE
 );
 
@@ -20,8 +20,8 @@ CREATE TABLE `Transactions` (
   `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `type` ENUM('user', 'toBank', 'fromBank', 'toCash', 'fromCash') NOT NULL,
   `amount` DOUBLE NOT NULL,
-  `date` DATETIME NOT NULL DEFAULT LOCALTIME,
-  `description` VARCHAR(255) NOT NULL DEFAULT '',
+  `date` DATETIME DEFAULT LOCALTIME,
+  `description` VARCHAR(255) DEFAULT '',
   `sender_id` INT,
   `receiver_id` INT,
   FOREIGN KEY (`sender_id`) REFERENCES `Users`(`id`),
@@ -31,7 +31,7 @@ CREATE TABLE `Transactions` (
 DROP TABLE IF EXISTS `Connections`;
 CREATE TABLE `Connections` (
   `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  `date` DATETIME NOT NULL DEFAULT LOCALTIME,
+  `date` DATETIME DEFAULT LOCALTIME,
   `user_id1` INT NOT NULL,
   `user_id2` INT NOT NULL,
   FOREIGN KEY (`user_id1`) REFERENCES `Users`(`id`),
