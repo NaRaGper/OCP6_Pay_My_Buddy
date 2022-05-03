@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.naragper.paymybuddy.model.User;
+import com.naragper.paymybuddy.repository.ITransactionRepository;
 import com.naragper.paymybuddy.repository.IUserRepository;
 
 @Service
@@ -16,6 +17,8 @@ public class UserService implements IUserService {
 	
 	@Autowired
 	IUserRepository userRepository;
+	@Autowired
+	ITransactionRepository transactionRepository;
 
 	public List<User> getUsers() {
 		return (List<User>) userRepository.findAll();
@@ -26,24 +29,40 @@ public class UserService implements IUserService {
 	}
 
 	public User postUser(@Valid User postUser) {
-		// TODO : implement logic
-		return userRepository.save(postUser);
-	}
-
-	public User putUser(@Valid User putUser) {
-		// TODO : implement logic
-		return userRepository.save(putUser);
-	}
-	
-	// param : id
-	public User deleteUser(@Valid User deleteUser) {
-		Optional<User> user = getUser(deleteUser.getId());
-		if (user != null) {
-			userRepository.delete(deleteUser);
-			return user.get();
+		// If the user doesn't exist, create it
+		// We cannot use it's id as it is not generated yet
+		if (getUserFromEmail(postUser.getEmail()) == null) {
+			return userRepository.save(postUser);
 		} else {
 			return null;
 		}
 	}
 
+	public User putUser(@Valid User putUser) {
+		// If the user exists, modify it
+		if (getUser(putUser.getId()) != null) {
+			return userRepository.save(putUser);
+		} else {
+			return null;
+		}
+	}
+	
+	public User deleteUser(int id) {
+		Optional<User> user = getUser(id);
+		if (user != null) {
+			userRepository.deleteById(id);
+			return user.get();
+		} else {
+			return null;
+		}
+	}
+	
+	public User getUserFromEmail(String email) {
+		User foundUser = (User) getUsers().stream().filter(user -> user.getEmail().equalsIgnoreCase(email));
+		if (foundUser != null) {
+			return foundUser;
+		} else {
+			return null;
+		}
+	}
 }

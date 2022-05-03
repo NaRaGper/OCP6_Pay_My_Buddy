@@ -17,6 +17,7 @@ public interface IUserService {
 
 	public User putUser(@Valid User putUser);
 
-	public User deleteUser(@Valid User deleteUser);
+	public User deleteUser(int id);
 	
+	public User getUserFromEmail(String email);
 }
