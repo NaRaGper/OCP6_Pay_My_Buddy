@@ -63,10 +63,10 @@ public class UserController {
 	}
 	
 	@DeleteMapping
-	public ResponseEntity<Object> deleteUser(@Valid @RequestBody User deleteUser) {
-		User result = userService.deleteUser(deleteUser);
+	public ResponseEntity<Object> deleteUser(@RequestParam int id) {
+		User result = userService.deleteUser(id);
 		if (result != null) {
-			return new ResponseEntity<>("The user " + deleteUser.getEmail() + " has been deleted", HttpStatus.OK);
+			return new ResponseEntity<>("The user has been deleted", HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>("This user cannot be deleted", HttpStatus.BAD_REQUEST);
 		}
