@@ -12,20 +12,24 @@ CREATE TABLE `Users` (
   `username` VARCHAR(45) DEFAULT(`email`),
   `balance` DOUBLE DEFAULT 0,
   `bank_account_number` VARCHAR(45) DEFAULT '',
-  `hash` CHAR(60) NOT NULL UNIQUE
+  `hash` CHAR(60) NOT NULL
 );
 
 DROP TABLE IF EXISTS `Transactions`;
 CREATE TABLE `Transactions` (
   `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  `type` ENUM('user', 'toBank', 'fromBank', 'toCash', 'fromCash') NOT NULL,
+  `type` ENUM('USER', 'TOBANK', 'FROMBANK', 'TOCASH', 'FROMCASH') NOT NULL,
   `amount` DOUBLE NOT NULL,
   `date` DATETIME DEFAULT LOCALTIME,
   `description` VARCHAR(255) DEFAULT '',
   `sender_id` INT,
   `receiver_id` INT,
-  FOREIGN KEY (`sender_id`) REFERENCES `Users`(`id`),
+  FOREIGN KEY (`sender_id`) REFERENCES `Users`(`id`)
+  ON DELETE NO ACTION
+  ON UPDATE CASCADE,
   FOREIGN KEY (`receiver_id`) REFERENCES `Users`(`id`)
+  ON DELETE NO ACTION
+  ON UPDATE CASCADE
 );
 
 DROP TABLE IF EXISTS `Connections`;
@@ -34,8 +38,10 @@ CREATE TABLE `Connections` (
   `date` DATETIME DEFAULT LOCALTIME,
   `user_id1` INT NOT NULL,
   `user_id2` INT NOT NULL,
-  FOREIGN KEY (`user_id1`) REFERENCES `Users`(`id`),
-  FOREIGN KEY (`user_id2`) REFERENCES `Users`(`id`),
+  FOREIGN KEY (`user_id1`) REFERENCES `Users`(`id`)
+  ON DELETE CASCADE,
+  FOREIGN KEY (`user_id2`) REFERENCES `Users`(`id`)
+  ON DELETE CASCADE,
   CHECK (`user_id1`!=`user_id2`),
   UNIQUE INDEX `unique_pair` ((LEAST(`user_id1`, `user_id2`)), (GREATEST(`user_id1`, `user_id2`)))
 );
