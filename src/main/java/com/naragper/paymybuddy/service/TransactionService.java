@@ -16,10 +16,10 @@ import com.naragper.paymybuddy.repository.ITransactionRepository;
 
 @Service
 public class TransactionService implements ITransactionService {
-	
+
 	@Autowired
 	ITransactionRepository transactionRepository;
-	
+
 	@Autowired
 	IUserService userService;
 
@@ -54,51 +54,70 @@ public class TransactionService implements ITransactionService {
 			return null;
 		}
 	}
-	
+
 	@Transactional
-	public void payUser(int senderId, int receiverId, double amount, String description) {
+	public Transaction payUser(int senderId, int receiverId, double amount, String description) {
 		// Retrieve both users
 		User sender = userService.getUser(senderId).get();
 		User receiver = userService.getUser(receiverId).get();
-		// Modify their respective balance
-		sender.setBalance(sender.getBalance() - amount);
-		receiver.setBalance(receiver.getBalance() + amount);
-		// Update the users
-		userService.putUser(sender);
-		userService.putUser(receiver);
-		// Create a new transaction
-		Transaction transaction = new Transaction();
-		transaction.setType(PaymentType.USER);
-		transaction.setSenderId(senderId);
-		transaction.setReceiverId(receiverId);
-		transaction.setDescription(description);
-		transaction.setAmount(amount);
-		postTransaction(transaction);
+		// Verify that users exist
+		if (sender == null || receiver == null) {
+			return null;
+		} else {
+			// Add fees to the amount
+			double taxedAmount = addFees(amount);
+			// Modify their respective balance
+			sender.setBalance(sender.getBalance() - taxedAmount);
+			receiver.setBalance(receiver.getBalance() + taxedAmount);
+			// Update the users
+			userService.putUser(sender);
+			userService.putUser(receiver);
+			// Create a new transaction
+			Transaction transaction = new Transaction();
+			transaction.setType(PaymentType.USER);
+			transaction.setSenderId(senderId);
+			transaction.setReceiverId(receiverId);
+			transaction.setDescription(description);
+			transaction.setAmount(taxedAmount);
+			postTransaction(transaction);
+			return transaction;
+		}
 	}
-	
-	public void nonUserTransaction(int userId, PaymentType type, double amount, String description) {
+
+	@Transactional
+	public Transaction nonUserTransaction(int userId, PaymentType type, double amount, String description) {
 		// Retrieve the user
 		User user = userService.getUser(userId).get();
+		// Add fees to the amount
+		double taxedAmount = addFees(amount);
 		// Modify the balance and create a new transaction accordingly
 		Transaction transaction = new Transaction();
 		transaction.setType(type);
-		transaction.setAmount(amount);
+		transaction.setAmount(taxedAmount);
 		transaction.setDescription(description);
 		switch (type) {
-			case TOCASH: case TOBANK:
-				user.setBalance(user.getBalance() - amount);
-				transaction.setSenderId(userId);
-				break;
-			case FROMCASH: case FROMBANK:
-				user.setBalance(user.getBalance() + amount);
-				transaction.setReceiverId(userId);
-				break;
-			default:
-				break;
+		case TOCASH:
+		case TOBANK:
+			user.setBalance(user.getBalance() - taxedAmount);
+			transaction.setSenderId(userId);
+			break;
+		case FROMCASH:
+		case FROMBANK:
+			user.setBalance(user.getBalance() + taxedAmount);
+			transaction.setReceiverId(userId);
+			break;
+		default:
+			break;
 		}
 		// Update the user
 		userService.putUser(user);
 		// Post the transaction
 		postTransaction(transaction);
+		return transaction;
+	}
+
+	public double addFees(double amount) {
+		double fees = amount * (0.5 / 100);
+		return amount + fees;
 	}
 }

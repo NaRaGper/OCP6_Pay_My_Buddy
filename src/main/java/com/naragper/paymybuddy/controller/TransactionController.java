@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.naragper.paymybuddy.model.PaymentType;
 import com.naragper.paymybuddy.model.Transaction;
 import com.naragper.paymybuddy.service.ITransactionService;
 
@@ -26,12 +27,12 @@ public class TransactionController {
 
 	@Autowired
 	private ITransactionService transactionService;
-	
+
 	@GetMapping("/list")
 	public List<Transaction> getTransactions() {
 		return transactionService.getTransactions();
 	}
-	
+
 	@GetMapping
 	public ResponseEntity<Object> getTransaction(@RequestParam int id) {
 		Optional<Transaction> result = transactionService.getTransaction(id);
@@ -41,7 +42,7 @@ public class TransactionController {
 			return new ResponseEntity<>("This transaction cannot be found", HttpStatus.NOT_FOUND);
 		}
 	}
-	
+
 	@PostMapping
 	public ResponseEntity<Object> postTransaction(@Valid @RequestBody Transaction postTransaction) {
 		Transaction result = transactionService.postTransaction(postTransaction);
@@ -51,7 +52,7 @@ public class TransactionController {
 			return new ResponseEntity<>("This transaction cannot be created", HttpStatus.BAD_REQUEST);
 		}
 	}
-	
+
 	@PutMapping
 	public ResponseEntity<Object> putTransaction(@Valid @RequestBody Transaction putTransaction) {
 		Transaction result = transactionService.putTransaction(putTransaction);
@@ -61,7 +62,7 @@ public class TransactionController {
 			return new ResponseEntity<>("This transaction cannot be modified", HttpStatus.BAD_REQUEST);
 		}
 	}
-	
+
 	@DeleteMapping
 	public ResponseEntity<Object> deleteTransaction(@RequestParam int id) {
 		Transaction result = transactionService.deleteTransaction(id);
@@ -69,6 +70,26 @@ public class TransactionController {
 			return new ResponseEntity<>("The transaction has been deleted", HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>("This transaction cannot be deleted", HttpStatus.BAD_REQUEST);
+		}
+	}
+
+	@PostMapping("/user")
+	public ResponseEntity<Object> payUser(@RequestParam int senderId, @RequestParam int receiverId, @RequestParam double amount, String description) {
+		Transaction result = transactionService.payUser(senderId, receiverId, amount, description);
+		if (result != null) {
+			return new ResponseEntity<>(result, HttpStatus.CREATED);
+		} else {
+			return new ResponseEntity<>("This transaction cannot be completed", HttpStatus.BAD_REQUEST);
+		}
+	}
+
+	@PostMapping("/other")
+	public ResponseEntity<Object> nonUserTransaction(@RequestParam int userId, @RequestParam PaymentType type, @RequestParam double amount, String description) {
+		Transaction result = transactionService.nonUserTransaction(userId, type, amount, description);
+		if (result != null) {
+			return new ResponseEntity<>(result, HttpStatus.CREATED);
+		} else {
+			return new ResponseEntity<>("This transaction cannot be completed", HttpStatus.BAD_REQUEST);
 		}
 	}
 }

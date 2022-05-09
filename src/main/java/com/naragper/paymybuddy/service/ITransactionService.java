@@ -20,7 +20,9 @@ public interface ITransactionService {
 
 	public Transaction deleteTransaction(int id);
 	
-	public void payUser(int senderId, int receiverId, double amount, String description);
+	public Transaction payUser(int senderId, int receiverId, double amount, String description);
 	
-	public void nonUserTransaction(int userId, PaymentType type, double amount, String description);
+	public Transaction nonUserTransaction(int userId, PaymentType type, double amount, String description);
+	
+	public double addFees(double amount);
 }

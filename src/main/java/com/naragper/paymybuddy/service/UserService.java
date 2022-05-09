@@ -2,6 +2,7 @@ package com.naragper.paymybuddy.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -58,8 +59,10 @@ public class UserService implements IUserService {
 	}
 	
 	public User getUserFromEmail(String email) {
-		User foundUser = (User) getUsers().stream().filter(user -> user.getEmail().equalsIgnoreCase(email));
-		if (foundUser != null) {
+		List<User> foundUserList = getUsers().stream().filter(user -> user.getEmail().equalsIgnoreCase(email)).collect(Collectors.toList());
+		User foundUser;
+		if (foundUserList.isEmpty() != true) {
+			foundUser = foundUserList.get(0);
 			return foundUser;
 		} else {
 			return null;
