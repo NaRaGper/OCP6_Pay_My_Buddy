@@ -26,11 +26,12 @@ public class Transaction {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	@Column(name = "type")
+	@Column(name = "type", columnDefinition="enum('USER', 'TOBANK', 'FROMBANK', 'TOCASH', 'FROMCASH')")
 	@Enumerated(EnumType.STRING)
 	private PaymentType type;
 	@NotNull
 	private double amount;
+	private double fees;
 	private Date date;
 	private String description;
 	@Column(name = "sender_id")

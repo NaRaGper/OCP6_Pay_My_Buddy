@@ -58,17 +58,20 @@ public class TransactionService implements ITransactionService {
 	@Transactional
 	public Transaction payUser(int senderId, int receiverId, double amount, String description) {
 		// Retrieve both users
-		User sender = userService.getUser(senderId).get();
-		User receiver = userService.getUser(receiverId).get();
+		User sender = userService.getUser(senderId);
+		User receiver = userService.getUser(receiverId);
+		// Add fees to the amount
+		double taxedAmount = addFees(amount);
 		// Verify that users exist
 		if (sender == null || receiver == null) {
 			return null;
+		// Verifying that the sender can pay
+		} else if (sender.getBalance() - taxedAmount < 0) {
+			return null;
 		} else {
-			// Add fees to the amount
-			double taxedAmount = addFees(amount);
 			// Modify their respective balance
 			sender.setBalance(sender.getBalance() - taxedAmount);
-			receiver.setBalance(receiver.getBalance() + taxedAmount);
+			receiver.setBalance(receiver.getBalance() + amount);
 			// Update the users
 			userService.putUser(sender);
 			userService.putUser(receiver);
@@ -79,6 +82,7 @@ public class TransactionService implements ITransactionService {
 			transaction.setReceiverId(receiverId);
 			transaction.setDescription(description);
 			transaction.setAmount(taxedAmount);
+			transaction.setFees(taxedAmount - amount);
 			postTransaction(transaction);
 			return transaction;
 		}
@@ -87,24 +91,26 @@ public class TransactionService implements ITransactionService {
 	@Transactional
 	public Transaction nonUserTransaction(int userId, PaymentType type, double amount, String description) {
 		// Retrieve the user
-		User user = userService.getUser(userId).get();
-		// Add fees to the amount
-		double taxedAmount = addFees(amount);
+		User user = userService.getUser(userId);
 		// Modify the balance and create a new transaction accordingly
 		Transaction transaction = new Transaction();
 		transaction.setType(type);
-		transaction.setAmount(taxedAmount);
+		transaction.setAmount(amount);
 		transaction.setDescription(description);
 		switch (type) {
 		case TOCASH:
-		case TOBANK:
-			user.setBalance(user.getBalance() - taxedAmount);
+			if (user.getBalance() - amount < 0) {
+				return null;
+			} else {
+			user.setBalance(user.getBalance() - amount);
 			transaction.setSenderId(userId);
+			transaction.setReceiverId(userId);
+			}
 			break;
 		case FROMCASH:
-		case FROMBANK:
-			user.setBalance(user.getBalance() + taxedAmount);
+			user.setBalance(user.getBalance() + amount);
 			transaction.setReceiverId(userId);
+			transaction.setSenderId(userId);
 			break;
 		default:
 			break;

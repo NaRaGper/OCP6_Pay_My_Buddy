@@ -18,18 +18,15 @@ CREATE TABLE `Users` (
 DROP TABLE IF EXISTS `Transactions`;
 CREATE TABLE `Transactions` (
   `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  `type` ENUM('USER', 'TOBANK', 'FROMBANK', 'TOCASH', 'FROMCASH'),
+  `type` ENUM('USER', 'TOBANK', 'FROMBANK', 'TOCASH', 'FROMCASH') NOT NULL,
   `amount` DOUBLE NOT NULL,
+  `fees` DOUBLE,
   `date` DATETIME DEFAULT LOCALTIME,
   `description` VARCHAR(255) DEFAULT '',
-  `sender_id` INT,
-  `receiver_id` INT,
-  FOREIGN KEY (`sender_id`) REFERENCES `Users`(`id`)
-  ON DELETE NO ACTION
-  ON UPDATE CASCADE,
+  `sender_id` INT NULL,
+  `receiver_id` INT NULL,
+  FOREIGN KEY (`sender_id`) REFERENCES `Users`(`id`),
   FOREIGN KEY (`receiver_id`) REFERENCES `Users`(`id`)
-  ON DELETE NO ACTION
-  ON UPDATE CASCADE
 );
 
 DROP TABLE IF EXISTS `Connections`;

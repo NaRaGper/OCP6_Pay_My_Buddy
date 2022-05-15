@@ -29,9 +29,12 @@ public class ConnectionService implements IConnectionService {
 	}
 
 	public Connection postConnection(@Valid Connection postConnection) {
-		// Verify that the users IDs are valid
-		boolean validIds = userService.getUser(postConnection.getUserId1()).isPresent()
-				&& userService.getUser(postConnection.getUserId2()).isPresent();
+		// Verify that the users IDs exist
+		boolean validIds = false;
+		if (userService.getUser(postConnection.getUserId1()) != null
+				&& userService.getUser(postConnection.getUserId2()) != null) {
+				validIds = true;
+		}
 		// If the connection doesn't exist and user IDs are valid, create it
 		if (validIds == true && connectionExists(postConnection.getUserId1(), postConnection.getUserId2()) == false) {
 			// Organize user IDs by value if necessary (lesser, greater)

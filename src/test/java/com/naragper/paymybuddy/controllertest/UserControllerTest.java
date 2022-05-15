@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -71,11 +70,9 @@ class UserControllerTest {
 
 	@Test
 	public void getUser_when_user_exists() throws Exception {
-		Optional<User> optionalUser = Optional.of(user);
-
 		String userJson = objectMapper.writeValueAsString(user);
 		RequestBuilder request = MockMvcRequestBuilders.get("/user").queryParam("id", "1");
-		Mockito.when(userService.getUser(user.getId())).thenReturn(optionalUser);
+		Mockito.when(userService.getUser(user.getId())).thenReturn(user);
 
 		MvcResult result = mvc.perform(request).andReturn();
 

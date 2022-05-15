@@ -1,7 +1,6 @@
 package com.naragper.paymybuddy.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -34,7 +33,7 @@ public class UserController {
 	
 	@GetMapping
 	public ResponseEntity<Object> getUser(@RequestParam int id) {
-		Optional<User> result = userService.getUser(id);
+		User result = userService.getUser(id);
 		if (result != null) {
 			return new ResponseEntity<>(result, HttpStatus.OK);
 		} else {

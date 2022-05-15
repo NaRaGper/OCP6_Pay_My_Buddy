@@ -1,7 +1,6 @@
 package com.naragper.paymybuddy.service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
@@ -25,8 +24,8 @@ public class UserService implements IUserService {
 		return (List<User>) userRepository.findAll();
 	}
 
-	public Optional<User> getUser(int id) {
-		return userRepository.findById(id);
+	public User getUser(int id) {
+		return userRepository.findById(id).orElse(null);
 	}
 
 	public User postUser(@Valid User postUser) {
@@ -49,10 +48,10 @@ public class UserService implements IUserService {
 	}
 	
 	public User deleteUser(int id) {
-		Optional<User> user = getUser(id);
+		User user = getUser(id);
 		if (user != null) {
 			userRepository.deleteById(id);
-			return user.get();
+			return user;
 		} else {
 			return null;
 		}

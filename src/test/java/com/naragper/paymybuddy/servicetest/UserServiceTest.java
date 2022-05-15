@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
@@ -76,13 +75,12 @@ class UserServiceTest {
 
 	@Test
 	void getUser() {
-		Optional<User> optionalUser = Optional.of(user);
-		Mockito.when(userRepository.findById(user.getId())).thenReturn(optionalUser);
+		Mockito.when(userRepository.findById(user.getId()).orElse(null)).thenReturn(user);
 
-		Optional<User> result = userService.getUser(user.getId());
+		User result = userService.getUser(user.getId());
 
 		assertNotNull(result);
-		assertTrue(result.get().getEmail().contains(user.getEmail()));
+		assertTrue(result.getEmail().contains(user.getEmail()));
 	}
 
 	@Test

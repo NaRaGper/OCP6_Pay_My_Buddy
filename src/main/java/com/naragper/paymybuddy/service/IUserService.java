@@ -1,7 +1,6 @@
 package com.naragper.paymybuddy.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -11,7 +10,7 @@ public interface IUserService {
 
 	public List<User> getUsers();
 
-	public Optional<User> getUser(int id);
+	public User getUser(int id);
 
 	public User postUser(@Valid User postUser);
 

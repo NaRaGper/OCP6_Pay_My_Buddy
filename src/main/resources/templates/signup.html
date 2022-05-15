@@ -2,26 +2,29 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="ISO-8859-1">
-<title>Pay My Buddy - Log in</title>
-<link href="/css/bootstrap.css" rel="stylesheet">
-<link th:href="@{/css/login.css}" rel="stylesheet">
+<title>Pay My Buddy - Sign Up</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link th:href="@{/css/signup.css}" rel="stylesheet">
 </head>
 
 <body class="text-center">
 	<main class="form-signin">
 		<img class="logo mb-3" src="/images/logo.png" alt="Pay My Buddy Logo" width="200">
-		<form th:action="@{/login}" th:object="${loginForm}" method="post">
+		<form th:action="@{/signup}" th:object="${signupForm}" method="post">
 			<div id="emailForm" class="form-floating mb-3">
 				<input type="email" th:field="*{email}" placeholder="test@mail.com" class="form-control" id="userEmail">
 				<label for="userEmail" class="form-label">
 				<img class="custom-icon" src="/images/envelope.svg" alt="Email Icon">Email</label>
 			</div>
 			<div id="passwordForm" class="form-floating mb-5">
-				<input type="password" th:field="*{password}" placeholder="Enter your password" class="form-control" id="userPassword">
+				<input type="password" th:field="*{password}" placeholder="Enter your password" class="form-control" id="userPassword" aria-describedby="passwordConstraints">
 				<label for="userPassword" class="form-label">
 				<img class="custom-icon" src="/images/asterisk.svg" alt="Asterisk Icon">Password</label>
+				<div id="passwordConstraints" class="form-text">Your password must be 8-50 characters long.<br/>
+					It must contain at least one uppercase letter, one number and one special character.
+				</div>
 			</div>
-			<button class="w-60 btn btn-lg btn-custom" type="submit" value="Submit">Log in</button>
+			<button class="w-60 btn btn-lg btn-custom" type="submit" value="Submit">Sign up</button>
 		</form>
 	</main>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
