@@ -1,5 +1,7 @@
 package com.naragper.paymybuddy.model;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -28,5 +30,5 @@ public class Connection {
 	@NotNull
 	@Column(name = "user_id2")
 	private int userId2;
-	private String date;
+	private Date date;
 }

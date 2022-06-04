@@ -1,11 +1,11 @@
 package com.naragper.paymybuddy.service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 import com.naragper.paymybuddy.model.User;
@@ -58,13 +58,15 @@ public class UserService implements IUserService {
 	}
 	
 	public User getUserFromEmail(String email) {
-		List<User> foundUserList = getUsers().stream().filter(user -> user.getEmail().equalsIgnoreCase(email)).collect(Collectors.toList());
-		User foundUser;
-		if (foundUserList.isEmpty() != true) {
-			foundUser = foundUserList.get(0);
+		User foundUser = userRepository.findByEmailIgnoreCase(email).orElse(null);
+		if (foundUser != null) {
 			return foundUser;
 		} else {
 			return null;
 		}
+	}
+	
+	public boolean verifyHash(String password, String hash) {
+		return BCrypt.checkpw(password, hash);
 	}
 }

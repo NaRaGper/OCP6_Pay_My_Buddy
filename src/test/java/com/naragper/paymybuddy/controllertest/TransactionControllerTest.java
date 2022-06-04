@@ -205,7 +205,7 @@ class TransactionControllerTest {
 		queryParameters.add("description", "Description test");
 		String transactionJson = objectMapper.writeValueAsString(transaction);
 		RequestBuilder request = MockMvcRequestBuilders.post("/transaction/other").queryParams(queryParameters);
-		Mockito.when(transactionService.nonUserTransaction(1, PaymentType.TOCASH, 11111, "Description test")).thenReturn(transaction);
+		Mockito.when(transactionService.nonUserTransaction(1, PaymentType.DEBIT, 11111, "Description test")).thenReturn(transaction);
 
 		MvcResult result = mvc.perform(request).andReturn();
 
@@ -220,7 +220,7 @@ class TransactionControllerTest {
 		queryParameters.add("amount", "11111");
 		queryParameters.add("description", "Description test");
 		RequestBuilder request = MockMvcRequestBuilders.post("/transaction/other").queryParams(queryParameters);
-		Mockito.when(transactionService.nonUserTransaction(1, PaymentType.TOCASH, 11111, "Description test")).thenReturn(null);
+		Mockito.when(transactionService.nonUserTransaction(1, PaymentType.DEBIT, 11111, "Description test")).thenReturn(null);
 
 		MvcResult result = mvc.perform(request).andReturn();
 

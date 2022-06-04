@@ -98,7 +98,7 @@ public class TransactionService implements ITransactionService {
 		transaction.setAmount(amount);
 		transaction.setDescription(description);
 		switch (type) {
-		case TOCASH:
+		case DEBIT:
 			if (user.getBalance() - amount < 0) {
 				return null;
 			} else {
@@ -107,7 +107,7 @@ public class TransactionService implements ITransactionService {
 			transaction.setReceiverId(userId);
 			}
 			break;
-		case FROMCASH:
+		case CREDIT:
 			user.setBalance(user.getBalance() + amount);
 			transaction.setReceiverId(userId);
 			transaction.setSenderId(userId);

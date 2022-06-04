@@ -10,15 +10,17 @@ CREATE TABLE `Users` (
   `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `email` VARCHAR(255) NOT NULL UNIQUE,
   `username` VARCHAR(45) DEFAULT(`email`),
+  `first_name` VARCHAR(45),
+  `last_name` VARCHAR(45),
   `balance` DOUBLE DEFAULT 0,
-  `bank_account_number` VARCHAR(45) DEFAULT '',
+  `bank_account_number` VARCHAR(45),
   `hash` CHAR(60) NOT NULL
 );
 
 DROP TABLE IF EXISTS `Transactions`;
 CREATE TABLE `Transactions` (
   `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  `type` ENUM('USER', 'TOBANK', 'FROMBANK', 'TOCASH', 'FROMCASH') NOT NULL,
+  `type` ENUM('USER', 'DEBIT', 'CREDIT') NOT NULL,
   `amount` DOUBLE NOT NULL,
   `fees` DOUBLE,
   `date` DATETIME DEFAULT LOCALTIME,

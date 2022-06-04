@@ -26,7 +26,7 @@ public class Transaction {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	@Column(name = "type", columnDefinition="enum('USER', 'TOBANK', 'FROMBANK', 'TOCASH', 'FROMCASH')")
+	@Column(name = "type", columnDefinition="enum('USER', 'DEBIT', 'CREDIT')")
 	@Enumerated(EnumType.STRING)
 	private PaymentType type;
 	@NotNull

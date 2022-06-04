@@ -38,7 +38,7 @@ INSERT INTO `Transactions` (`type`, `amount`, `description`, `sender_id`, `recei
 VALUES ('user', 3736, 'Achat de voiture d\'occasion', 1, 2);
 
 INSERT INTO `Transactions` (`type`, `amount`, `description`, `receiver_id`)
-VALUES ('fromBank', 200, 'Retrait d\'argent', 3);
+VALUES ('credit', 200, 'Retrait d\'argent', 3);
 
 INSERT INTO `Transactions` (`type`, `amount`, `sender_id`, `receiver_id`)
 VALUES ('user', 10, 4, 2);

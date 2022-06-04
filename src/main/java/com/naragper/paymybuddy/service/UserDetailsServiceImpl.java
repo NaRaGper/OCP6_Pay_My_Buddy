@@ -9,21 +9,19 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.naragper.paymybuddy.model.User;
-import com.naragper.paymybuddy.model.UserPrincipal;
+import com.naragper.paymybuddy.model.UserDetailsImpl;
 import com.naragper.paymybuddy.repository.IUserRepository;
 
 @Service
-public class UserPrincipalService implements UserDetailsService {
+public class UserDetailsServiceImpl implements UserDetailsService {
 	
 	@Autowired
 	IUserRepository userRepository;
 	
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-		Optional<User> user = userRepository.findByEmail(email);
-		
-		user.orElseThrow(() -> new UsernameNotFoundException("This user doesn't exist."));
-		
-		return user.map(UserPrincipal::new).get();
+		Optional<User> user = userRepository.findByEmailIgnoreCase(email);
+		return user.map(UserDetailsImpl::new).get();
 	}
+	
 }

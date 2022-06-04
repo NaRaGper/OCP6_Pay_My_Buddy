@@ -10,5 +10,5 @@ import com.naragper.paymybuddy.model.User;
 @Repository
 public interface IUserRepository extends CrudRepository<User, Integer> {
 	
-	Optional<User> findByEmail(String email);
+	Optional<User> findByEmailIgnoreCase(String email);
 }

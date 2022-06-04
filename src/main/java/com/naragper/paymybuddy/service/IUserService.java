@@ -19,4 +19,6 @@ public interface IUserService {
 	public User deleteUser(int id);
 	
 	public User getUserFromEmail(String email);
+	
+	public boolean verifyHash(String password, String hash);
 }
