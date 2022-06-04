@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Pay My Buddy - Contacts</title>
+</head>
+
+<body>
+	<main>
+		<form action="#" th:action="@{/contacts}" th:object="${contactForm}" method="post">
+			<label for="contactEmail">Enter your contact's email adress: </label>
+			<input type="email" th:field="*{email}" placeholder="test@mail.com" id="contactEmail">
+			<button type="submit" value="add contact">Add contact</button>
+			<span th:if="${errorBadAdressMessage}"  th:text="${errorBadAdressMessage}" style="color: red">Error: invalid input</span>
+			<span th:if="${errorSameAdressMessage}"  th:text="${errorSameAdressMessage}" style="color: orange">Error: same adress</span>
+			<span th:if="${successMessage}"  th:text="${successMessage}" style="color: green">Success</span>
+		</form>
+	</main>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

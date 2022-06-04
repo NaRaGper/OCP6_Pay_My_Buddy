@@ -13,7 +13,7 @@ body {
 
 .form-signin {
   width: 100%;
-  max-width: 400px;
+  max-width: 350px;
   padding: 15px;
   margin: auto;
 }
@@ -32,5 +32,12 @@ body {
 
 .btn-custom {
   color: #f5f5f5;
+/*   background-color: #6c866f; */
   background-color: #6ecc50;
+}
+
+#passwordVerificationErrorMessage {
+	display: none;
+	font-size: small;
+	color: red;	
 }
