@@ -10,30 +10,70 @@
 <body class="text-center">
 	<main class="form-signin">
 		<img class="logo mb-3" src="/images/logo.png" alt="Pay My Buddy Logo" width="200">
+<<<<<<< Updated upstream
 		<form onsubmit="return confirmPassword()" th:action="@{/signup}" th:object="${signupForm}" method="post">
+=======
+<<<<<<< Updated upstream
+		<form th:action="@{/signup}" th:object="${signupForm}" method="post">
+=======
+		<form onsubmit="return verifyForm()" th:action="@{/signup}" th:object="${signupForm}" method="post">
+			<p class="form-text">Fields annotated with an asterisk(*) are required.</p>
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 			<div id="emailForm" class="form-floating mb-3">
 				<input type="email" th:field="*{email}" placeholder="test@mail.com" class="form-control" id="userEmail">
 				<label for="userEmail" class="form-label">
-				<img class="custom-icon" src="/images/envelope.svg" alt="Email Icon">Email</label>
+				<img class="custom-icon" src="/images/envelope.svg" alt="Email Icon">Email*</label>
+				<p id="emailErrorMessage">Please enter your email adress.</p>
+			</div>
+			<div id="usernameForm" class="form-floating mb-3">
+				<input type="text" th:field="*{username}" placeholder="Username" class="form-control" id="userUsername">
+				<label for="userUsername" class="form-label">Username</label>
+			</div>
+			<div id="firstNameForm" class="form-floating mb-3">
+				<input type="text" th:field="*{firstName}" placeholder="First name" class="form-control" id="userFirstName">
+				<label for="userFirstName" class="form-label">First name</label>
+			</div>
+			<div id="lastNameForm" class="form-floating mb-3">
+				<input type="text" th:field="*{lastName}" placeholder="Last name" class="form-control" id="userLastName">
+				<label for="userLastName" class="form-label">Last name</label>
 			</div>
 			<div id="passwordForm" class="form-floating mb-1">
 				<input type="password" th:field="*{password}" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{12,50}$" placeholder="Enter your password" class="form-control" id="userPassword" aria-describedby="passwordConstraints">
 				<label for="userPassword" class="form-label">
+<<<<<<< Updated upstream
 				<img class="custom-icon" src="/images/asterisk.svg" alt="Asterisk Icon">Password</label>
+<<<<<<< Updated upstream
+=======
+				<div id="passwordConstraints" class="form-text">Your password must be 8-50 characters long.<br/>
+					It must contain at least one uppercase letter, one number and one special character.
+=======
+				<img class="custom-icon" src="/images/asterisk.svg" alt="Asterisk Icon">Password*</label>
+				<p id="passwordErrorMessage">Please enter a valid password.</p>
+>>>>>>> Stashed changes
 			</div>
 			<div id="passwordVerificationForm" class="form-floating mb-3">
 				<input type="password" placeholder="Confirm your password" class="form-control" id="userPasswordVerification">
 				<label for="userPasswordVerification" class="form-label">
+<<<<<<< Updated upstream
 				<img class="custom-icon" src="/images/asterisk.svg" alt="Asterisk Icon">Confirm your password</label>
 				<p id="passwordVerificationErrorMessage">Passwords do not match.</p>
 				<div id="passwordConstraints" class="form-text">Your password must be 12-50 characters long.<br/>
 					It must contain <em>at least:</em><br/> 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character: !@#$%^&amp;*_=+-
+=======
+				<img class="custom-icon" src="/images/asterisk.svg" alt="Asterisk Icon">Confirm your password*</label>
+				<p id="passwordVerificationErrorMessage">Passwords do not match.</p>
+				<div id="passwordConstraints" class="form-text">Your password must be 12-50 characters long.<br/>
+					It must contain <em>at least:</em><br/> 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character: !@#$%^&amp;*_=+-
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 				</div>
 			</div>
 			<button class="w-60 btn btn-lg btn-custom" type="submit" value="Submit">Sign up</button>
 		</form>
 	</main>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+<<<<<<< Updated upstream
 	<script>
 		function confirmPassword() {
 			var password = document.getElementById("userPassword").value;
@@ -48,6 +88,46 @@
 			}
 		}
 	</script>
+=======
+<<<<<<< Updated upstream
+=======
+	<script>
+		function verifyForm() {
+			var password = document.getElementById("userPassword").value;
+			var confirmedPassword = document.getElementById("userPasswordVerification").value;
+			var email = document.getElementById("userEmail").value;
+			
+			document.getElementById("userPasswordVerification").style.border = "0.666667px solid rgb(206, 212, 218)";
+			document.getElementById("passwordVerificationErrorMessage").style.display = "none";
+			document.getElementById("userEmail").style.border = "0.666667px solid rgb(206, 212, 218)";
+			document.getElementById("emailErrorMessage").style.display = "none";
+			document.getElementById("userPassword").style.border = "0.666667px solid rgb(206, 212, 218)";
+			document.getElementById("passwordErrorMessage").style.display = "none";
+			
+			if (Boolean(email.trim())) {
+				if (Boolean(password.trim())) {
+					if (password == confirmedPassword) {
+						alert("Your account has been created successfully.");
+						return true;
+					} else {
+						document.getElementById("userPasswordVerification").style.border = "thick solid #E34234";
+						document.getElementById("passwordVerificationErrorMessage").style.display = "inline";
+						return false;
+					}
+				} else {
+					document.getElementById("userPassword").style.border = "thick solid #E34234";
+					document.getElementById("passwordErrorMessage").style.display = "inline";
+					return false;
+				}
+			} else {
+				document.getElementById("userEmail").style.border = "thick solid #E34234";
+				document.getElementById("emailErrorMessage").style.display = "inline";
+				return false;
+			}
+		}
+	</script>
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 </body>
 
 </html>
