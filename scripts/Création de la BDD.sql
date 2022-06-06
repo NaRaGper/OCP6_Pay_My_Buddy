@@ -9,12 +9,13 @@ DROP TABLE IF EXISTS `Users`;
 CREATE TABLE `Users` (
   `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `email` VARCHAR(255) NOT NULL UNIQUE,
-  `username` VARCHAR(45) DEFAULT(`email`),
+  `username` VARCHAR(45),
   `first_name` VARCHAR(45),
   `last_name` VARCHAR(45),
   `balance` DOUBLE DEFAULT 0,
   `bank_account_number` VARCHAR(45),
-  `hash` CHAR(60) NOT NULL
+  `hash` CHAR(60) NOT NULL,
+  `role` ENUM('ROLE_USER', 'ROLE_ADMIN') NOT NULL
 );
 
 DROP TABLE IF EXISTS `Transactions`;
@@ -24,7 +25,7 @@ CREATE TABLE `Transactions` (
   `amount` DOUBLE NOT NULL,
   `fees` DOUBLE,
   `date` DATETIME DEFAULT LOCALTIME,
-  `description` VARCHAR(255) DEFAULT '',
+  `description` VARCHAR(255),
   `sender_id` INT NULL,
   `receiver_id` INT NULL,
   FOREIGN KEY (`sender_id`) REFERENCES `Users`(`id`),

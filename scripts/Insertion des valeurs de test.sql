@@ -1,20 +1,20 @@
 -- population de la table `Users` :
     -- ici les hashes utilisent les 60 premiers des 64 caractères résultant du SHA-256, l'application utilise BCrypt qui génère des hashes de 60 caractères de long
 	-- USER 1
-INSERT INTO `Users` (`email`, `hash`)
-VALUES ('test1@mail.fr', SUBSTR(SHA2('password1234', 256), 1, 60));
+INSERT INTO `Users` (`email`, `hash`, `role`)
+VALUES ('test1@mail.fr', SUBSTR(SHA2('password1234', 256), 1, 60), 'ROLE_USER');
 
 	-- USER 2
-INSERT INTO `Users` (`email`, `username`, `hash`)
-VALUES ('test2@mail.fr', 'User2', SUBSTR(SHA2('22password22', 256), 1, 60));
+INSERT INTO `Users` (`email`, `username`, `hash`, `role`)
+VALUES ('test2@mail.fr', 'User2', SUBSTR(SHA2('22password22', 256), 1, 60), 'ROLE_USER');
 
 	-- USER 3
-INSERT INTO `Users` (`email`, `balance`, `bank_account_number`, `hash`)
-VALUES ('test.3@mail.fr', 10000, '0138297465BIC', SUBSTR(SHA2('3333password', 256), 1, 60));
+INSERT INTO `Users` (`email`, `balance`, `bank_account_number`, `hash`, `role`)
+VALUES ('test.3@mail.fr', 10000, '0138297465BIC', SUBSTR(SHA2('3333password', 256), 1, 60), 'ROLE_USER');
 
 	-- USER 4
-INSERT INTO `Users` (`email`, `username`, `balance`, `bank_account_number`, `hash`)
-VALUES ('test44@mail.fr', 'User4', 283098, '02473655757AAA', SUBSTR(SHA2('4p4ssword4', 256), 1, 60));
+INSERT INTO `Users` (`email`, `username`, `balance`, `bank_account_number`, `hash`, `role`)
+VALUES ('test44@mail.fr', 'User4', 283098, '02473655757AAA', SUBSTR(SHA2('4p4ssword4', 256), 1, 60), 'ROLE_USER');
 
 -- population de la table `Connections` :
 INSERT INTO `Connections` (`user_id1`, `user_id2`) VALUES (1, 2);
